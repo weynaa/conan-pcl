@@ -105,15 +105,15 @@ class LibPCLConan(ConanFile):
 
         # patch for cuda arch >7.0
 
-        # for path, subdirs, names in os.walk(pcl_source_dir,):
-        #     for name in names:
-        #         if fnmatch(name, "*.cu"):
-        #             wildcard_file = os.path.join(path, name)
+        for path, subdirs, names in os.walk(pcl_source_dir,):
+            for name in names:
+                if fnmatch(name, "*morton.hpp") or fnmatch(name, "*.cu"):			
+                    wildcard_file = os.path.join(path, name)
 
-        #             # Fix package_folder paths
-        #             tools.replace_in_file(
-        #                 wildcard_file, "__all(", "__all_sync(0xFFFFFFFF,", strict=False)
-        #             tools.replace_in_file(
+                    # Fix package_folder paths
+                    tools.replace_in_file(
+			wildcard_file, "std::floor", "floorf", strict=False)
+        #            tools.replace_in_file(
         #                 wildcard_file, "__any(", "__any_sync(0xFFFFFFFF,", strict=False)
         #             tools.replace_in_file(
         #                 wildcard_file, "__ballot(",
